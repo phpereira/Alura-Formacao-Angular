@@ -15,6 +15,7 @@ export class Negociacoes {
 
     paraArray(): Negociacao[] //Nesse caso se não tipar, o retorno perderia a tipagem automática, devido ao concat.
     {
-        return [].concat(this._negociacoes);
+        return ([] as Negociacao[]).concat(this._negociacoes); 
+        //Como usei strictNullChecks e estou usando uma programação defensiva, eu preciso definir esse array [] as Negociacao[]
     }
 }

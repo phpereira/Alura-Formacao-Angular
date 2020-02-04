@@ -18,8 +18,20 @@ export class NegociacaoController {
 
     adiciona(event: Event) {
         event.preventDefault();
+
+        /* 
+           Com JQuery jquery atualizado, é necessário usar o toString para funcionar.
+           Com strictNullChecks eu preciso definir que estou receber um number para converter para String.
+        */
+        let data = new Date((this._inputData.val() as number).toString());
+        console.log(this._inputData.val())
+        if (!this._DiaUtil(data)) {
+            this._mensagemView.update('Somente negociações em dias úteis.')
+            return;
+        }
+
         const negociacao = new Negociacao(
-            new Date(this._inputData.val().toString()), /* Com JQuery jquery atualizado, é necessário usar o toString para funcionar */
+            data,
             Number(this._inputQuantidade.val()),
             Number(this._inputValor.val())
         );
@@ -29,4 +41,18 @@ export class NegociacaoController {
         this._mensagemView.update('Negociação adicionada com sucesso!');
 
     }
+
+    private _DiaUtil(data: Date){
+        return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo;
+    }
+}
+
+enum DiaDaSemana {
+    Domingo,
+    Segunda,
+    Terça,
+    Quarta,
+    Quinta,
+    Sexta,
+    Sabado
 }
