@@ -1,4 +1,6 @@
-class Negociacoes {
+import { Negociacao } from './Negociacao';
+
+export class Negociacoes {
     // private _negociacoes: Array<Negociacao> = []; /* É a mesma coisa. */
     private _negociacoes: Negociacao[] = [];
 
@@ -12,7 +14,7 @@ class Negociacoes {
     }
 
     paraArray(): Negociacao[] //Nesse caso se não tipar, o retorno perderia a tipagem automática, devido ao concat.
-    { 
+    {
         return [].concat(this._negociacoes);
     }
 }
