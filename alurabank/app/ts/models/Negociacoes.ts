@@ -11,7 +11,7 @@ class Negociacoes {
         this._negociacoes.push(negociacao);
     }
 
-    paraArray(): Negociacao[] //Nesse caso, o retorno perderia a tipagem, devido ao concat.
+    paraArray(): Negociacao[] //Nesse caso se não tipar, o retorno perderia a tipagem automática, devido ao concat.
     { 
         return [].concat(this._negociacoes);
     }
