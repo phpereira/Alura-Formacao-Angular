@@ -2,6 +2,7 @@ import { NegociacoesViews, MensagemView } from '../views/index';
 import { Negociacoes, Negociacao, NegociacaoParcial } from '../models/index';
 import { domInject, throttle } from '../helpers/decorators/index'
 import { NegociacaoService, handlerFunction } from '../services/NegociacaoService';
+import { imprime } from '../helpers/Utils';
 
 export class NegociacaoController {
 
@@ -42,6 +43,9 @@ export class NegociacaoController {
         );
 
         this._negociacoes.adiciona(negociacao);
+
+        imprime(negociacao, this._negociacoes); //Função imprime, para dar console.log sem repetição de código
+
         this._negociacoesView.update(this._negociacoes);
         this._mensagemView.update('Negociação adicionada com sucesso!');
 
@@ -62,10 +66,15 @@ export class NegociacaoController {
                     throw new Error(res.statusText)
                 }
             })
-            .then(negociacoes => {
+            .then(negociacoesParaImportar => {
+                const negociacoesJaImportadas = this._negociacoes.paraArray();
 
-                negociacoes.forEach(negociacao =>
-                    this._negociacoes.adiciona(negociacao));
+                negociacoesParaImportar
+                    .filter(negociacao => !negociacoesJaImportadas
+                        .some(jaImportada => negociacao.ehIgual(jaImportada)))
+
+                    .forEach(negociacao =>
+                        this._negociacoes.adiciona(negociacao));
 
                 this._negociacoesView.update(this._negociacoes);
             })

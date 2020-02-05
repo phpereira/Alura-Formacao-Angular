@@ -7,7 +7,6 @@ Isolamento do acesso a API em service
 
 export class NegociacaoService {
 
-
     obterNegociacoes(handler: handlerFunction): Promise<Negociacao[]> {
 
          return fetch('http://localhost:8080/dados') 

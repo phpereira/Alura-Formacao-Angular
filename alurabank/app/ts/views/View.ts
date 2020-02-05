@@ -13,7 +13,7 @@ export abstract class View<T> {
         this._escapar = escapar;
     }
 
-    @logarTempoDeExecucao(true)
+    // @logarTempoDeExecucao(true)  /* Decorator para exibir o tempo de execução do método.
     update(model: T): void {
         let template = this.template(model)
         if(this._escapar) 
