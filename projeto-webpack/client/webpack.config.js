@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
+const webpack = require('webpack');
 
 let plugins = [];
 
@@ -10,6 +11,11 @@ plugins.push(
         {
             filename: 'styles.css'
         }));
+
+plugins.push(new webpack.ProvidePlugin({
+    '$': 'jquery/dist/jquery.js',
+    'jQuery': 'jquery/dist/jquery.js'
+}));
 
 if (process.env.NODE_ENV == 'production') {
     plugins.push(new MinifyPlugin());
