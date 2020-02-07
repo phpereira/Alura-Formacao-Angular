@@ -3,8 +3,20 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let plugins = [];
+
+plugins.push(new HtmlWebpackPlugin({
+    hash: true,
+    minify: {
+        html5: true,
+        collapseWhitespace: true,
+        removeComments: true
+    },
+    filename: 'index.html',
+    template: __dirname + '/main.html'
+}));
 
 plugins.push(
     new MiniCssExtractPlugin(
@@ -17,7 +29,14 @@ plugins.push(new webpack.ProvidePlugin({
     'jQuery': 'jquery/dist/jquery.js'
 }));
 
+let SERVICE_URL = JSON.stringify('http://localhost:3000');
+
 if (process.env.NODE_ENV == 'production') {
+
+    let SERVICE_URL = JSON.stringify('http://endereco-da-sua-api')
+    
+    plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+
     plugins.push(new MinifyPlugin());
 
     plugins.push(new OptimizeCSSAssetsPlugin({
@@ -31,13 +50,14 @@ if (process.env.NODE_ENV == 'production') {
     }));
 }
 
+plugins.push(new webpack.DefinePlugin({ SERVICE_URL }))
+
 module.exports = {
     mode: 'development',
     entry: './app-src/app.js',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: 'dist'
+        path: path.resolve(__dirname, 'dist')
     },
 
     module: {
@@ -58,5 +78,14 @@ module.exports = {
     plugins,
     optimization: {
         minimizer: [new OptimizeCSSAssetsPlugin({})],
+        splitChunks: {
+            cacheGroups: {
+                node_vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
+        }
     },
 }
