@@ -1,0 +1,12 @@
+<ol class="list-unstyled row">
+    <!-- For para gerar as linhas com os dados da rows vinda do photos.component.ts-->
+    <li *ngFor="let cols of rows" class="row">
+        <!-- For para carregar as colunas com as photos através da cols definida na linha acima -->
+        <div *ngFor="let photo of cols" class="col-4">
+            <ap-photo
+                [url]="photo.url"
+                [description]="photo.description">
+            </ap-photo>
+        </div>
+    </li>
+</ol>
