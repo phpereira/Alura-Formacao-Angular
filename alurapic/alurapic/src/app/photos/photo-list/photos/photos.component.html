@@ -1,12 +1,14 @@
-<ol class="list-unstyled row">
+<p class="text-center text-muted" *ngIf="!photos.length">
+    Sorry, no photos
+</p>
+
+<div class="text-center">
     <!-- For para gerar as linhas com os dados da rows vinda do photos.component.ts-->
-    <li *ngFor="let cols of rows" class="row">
+    <div *ngFor="let cols of rows" class="row mt-3 mb-3">
         <!-- For para carregar as colunas com as photos através da cols definida na linha acima -->
         <div *ngFor="let photo of cols" class="col-4">
-            <ap-photo
-                [url]="photo.url"
-                [description]="photo.description">
+            <ap-photo [url]="photo.url" [description]="photo.description">
             </ap-photo>
         </div>
-    </li>
-</ol>
+    </div>
+</div>
