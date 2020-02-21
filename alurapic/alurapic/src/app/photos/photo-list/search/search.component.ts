@@ -8,7 +8,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
-    @Output() onTyping = new EventEmitter<string>(); //Evenvia um evento para o componente pai.
+    @Output() onTyping = new EventEmitter<string>(); //Envia um evento para o componente pai.
     @Input() value: string = ''; //Recebe um inbound property
     debounce: Subject<string> = new Subject<string>();
     //Lettable Operator para ficar escutando keyup do component e podermos otimizar as operações deste evento keyup.
