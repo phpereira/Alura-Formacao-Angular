@@ -9,6 +9,7 @@ export class UserService {
 
 
     private userSubject = new BehaviorSubject<User>(null);
+    private userName: string;
 
     constructor(private tokenService: TokenService) { 
         this.tokenService.hasToken() &&
@@ -23,12 +24,24 @@ export class UserService {
     getUser() {
         return this.userSubject.asObservable();
     }
-    
+
+    logout() {
+        this.tokenService.removeToken();
+        this.userSubject.next(null);
+    }
+
+    isLogged(){
+        return this.tokenService.hasToken();
+    }
     
     private decodeAndNotify() {
         const token = this.tokenService.getToken();
         const user = jwt_decode(token) as User;
+        this.userName = user.name;
         this.userSubject.next(user);
     }
 
+    getUserName() {
+        return this.userName;
+    }
 }
